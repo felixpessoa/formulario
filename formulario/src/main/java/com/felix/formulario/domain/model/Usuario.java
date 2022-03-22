@@ -1,5 +1,6 @@
 package com.felix.formulario.domain.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Usuario {
+public class Usuario implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +43,8 @@ public class Usuario {
 	@CPF
 	private String cpf;
 	
-	@Embedded
-	private List<Parametro> parametros = new ArrayList<>();
+//	@Embedded
+//	private List<Parametro> parametros = new ArrayList<>();
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private LocalDateTime dataCriacao;
@@ -48,12 +54,11 @@ public class Usuario {
 		this.setDataCriacao(LocalDateTime.now());
 	}
 
-	public Usuario(long usuarioId, String nome, String cpf, List<Parametro> parametros, LocalDateTime dataCriacao) {
+	public Usuario(long usuarioId, String nome, String cpf, LocalDateTime dataCriacao) {
 		super();
 		this.usuarioId = usuarioId;
 		this.nome = nome;
 		this.cpf = cpf;
-		this.parametros = parametros;
 		this.setDataCriacao(LocalDateTime.now());
 	}
 	

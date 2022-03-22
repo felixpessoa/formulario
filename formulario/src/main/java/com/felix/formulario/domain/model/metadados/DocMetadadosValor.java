@@ -1,9 +1,11 @@
 package com.felix.formulario.domain.model.metadados;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,8 +26,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class DocMetadadosValor {
+public class DocMetadadosValor implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
@@ -33,23 +40,29 @@ public class DocMetadadosValor {
 	
 	private String ds_valor;
 	
-	@ManyToOne
-	private DocMetados cd_campo;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cd_campo", insertable = true, updatable = false)
+	private DocMetadados cd_campo;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cd_atendimento", insertable = true, updatable = false)
 	private Atendimento cd_atendimento;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cd_usuario", insertable = true, updatable = false)
 	private Usuario cd_usuario;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private LocalDateTime dataCriacao;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cd_Tipo_Documento", insertable = true, updatable = false)
 	private TipoDocumento cd_Tipo_Documento;
 	
 	private String sn_Ativo;
-	@ManyToOne
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "nr_Documento", insertable = true, updatable = false)
 	private Sequencia nr_Documento;
 	
 	
@@ -58,7 +71,7 @@ public class DocMetadadosValor {
 		super();
 		this.setDataCriacao(LocalDateTime.now());
 	}
-	public DocMetadadosValor(Long cd_valor, String ds_valor, DocMetados cd_campo, Atendimento cd_atendimento,
+	public DocMetadadosValor(Long cd_valor, String ds_valor, DocMetadados cd_campo, Atendimento cd_atendimento,
 			Usuario cd_usuario, LocalDateTime dataCriacao, TipoDocumento cd_Tipo_Documento, String sn_Ativo,
 			Sequencia nr_Documento) {
 		super();
